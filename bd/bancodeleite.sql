@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 13/11/2025 às 15:35
+-- Tempo de geração: 17/11/2025 às 22:51
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -71,6 +71,13 @@ CREATE TABLE `doacoes` (
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
+--
+-- Despejando dados para a tabela `doacoes`
+--
+
+INSERT INTO `doacoes` (`id`, `doadora_id`, `data_doacao`, `quantidade_ml`, `tipo_leite`, `criado_em`) VALUES
+(33, 45, '2025-11-17', 150.00, 'leite_maduro', '2025-11-17 21:14:44');
+
 -- --------------------------------------------------------
 
 --
@@ -96,7 +103,7 @@ CREATE TABLE `doadoras` (
 --
 
 INSERT INTO `doadoras` (`id`, `nome`, `cpf`, `data_nascimento`, `telefone`, `cep`, `endereco`, `numero`, `bairro`, `observacoes`, `criado_em`) VALUES
-(45, 'adryan macaco 3', '519.872.868-39', '2025-11-15', '(16) 99308-9219', '15905-020', 'Rua Doutor Joaquim Machado Faro Rolemberg', '12', 'Jardim Bela Vista', '', '2025-11-12 14:12:04');
+(45, 'Laura', '519.872.868-39', '2025-11-15', '(16) 99308-9219', '15905-020', 'Rua Doutor Joaquim Machado Faro Rolemberg', '12', 'Jardim Bela Vista', '', '2025-11-12 14:12:04');
 
 -- --------------------------------------------------------
 
@@ -161,6 +168,13 @@ CREATE TABLE `retiradas` (
   `tipo_leite` enum('leite_maduro','leite_transicao','leite_colostro','leite_humano_pasteurizado','leite_cru') NOT NULL,
   `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+--
+-- Despejando dados para a tabela `retiradas`
+--
+
+INSERT INTO `retiradas` (`id`, `bebe_id`, `data_retirada`, `quantidade_ml`, `tipo_leite`, `criado_em`) VALUES
+(7, 22, '2025-11-12', 150.00, 'leite_maduro', '2025-11-17 21:16:21');
 
 -- --------------------------------------------------------
 
@@ -250,7 +264,7 @@ ALTER TABLE `bebes`
 -- AUTO_INCREMENT de tabela `doacoes`
 --
 ALTER TABLE `doacoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=33;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
 
 --
 -- AUTO_INCREMENT de tabela `doadoras`
@@ -274,7 +288,7 @@ ALTER TABLE `logleite`
 -- AUTO_INCREMENT de tabela `retiradas`
 --
 ALTER TABLE `retiradas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=7;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
