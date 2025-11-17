@@ -1,0 +1,151 @@
+:root {
+  --dourado: rgb(212, 175, 55);
+  --verde-menta-suave: rgb(176, 224, 198);
+  --verde-escuro: rgb(44, 107, 47);
+  --cor-fundo-pagina: #f0f4f8;
+  --cor-texto: #222;
+  --cor-input-border: #ccc;
+  
+  --cor-input-focus: var(--verde-escuro);
+  --cor-botao: var(--verde-escuro);
+  --cor-botao-hover: #2e7d32;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--cor-fundo-pagina);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  padding: 2rem;
+}
+
+.login-container {
+  background-color: #ffffff;
+  padding: 2rem 2.5rem;
+  border-radius: 0.8rem;
+  box-shadow: 0 0.3rem 0.8rem rgba(0, 0, 0, 0.1);
+  width: 100%;
+  max-width: 400px;       /* largura máxima para ser compacto em telas grandes */
+  margin: 0 auto;
+}
+
+.login-form h2 {
+  text-align: center;
+  margin-bottom: 2rem;
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: var(--dourado);
+}
+
+.form-group {
+  margin-bottom: 1.5rem;
+  display: flex;
+  flex-direction: column;
+}
+
+label {
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  font-size: 1rem;
+  color: var(--cor-texto);
+}
+
+input[type="text"],
+input[type="password"] {
+  width: 100%;            /* ocupa toda largura do formulário */
+  padding: 0.75rem 1rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--cor-input-border);
+  font-size: 1rem;
+  background-color: #fff;
+  color: var(--cor-texto);
+  transition: border 0.3s ease-in-out;
+  box-sizing: border-box;
+}
+
+input[type="text"]:focus,
+input[type="password"]:focus {
+  border-color: var(--cor-input-focus);
+  outline: none;
+}
+
+input[type="submit"] {
+  background-color: var(--cor-botao);
+  color: #fff;
+  font-weight: 700;
+  border: none;
+  padding: 0.9rem 1rem;
+  border-radius: 0.4rem;
+  cursor: pointer;
+  font-size: 1.1rem;
+  width: 100%;
+  transition: background-color 0.3s ease;
+  box-sizing: border-box;
+}
+
+input[type="submit"]:hover {
+  background-color: var(--cor-botao-hover);
+}
+
+.esqueceu {
+  display: block;
+  margin-top: 1rem;
+  text-align: center;
+  font-size: 0.95rem;
+  text-decoration: underline;
+  color: var(--verde-escuro);
+  transition: color 0.3s ease;
+}
+
+.esqueceu:hover {
+  color: var(--dourado);
+}
+
+/* Responsividade */
+@media (max-width: 500px) {
+  .login-container {
+    padding: 1.5rem 1.5rem;
+    max-width: 100%;
+  }
+
+  .login-form h2 {
+    font-size: 1.3rem;
+    margin-bottom: 1.5rem;
+  }
+
+  input[type="text"],
+  input[type="password"],
+  input[type="submit"] {
+    font-size: 1rem;
+    padding: 0.7rem 0.9rem;
+  }
+}
+
+select {
+  width: 100%;
+  padding: 0.75rem 1rem;
+  border-radius: 0.4rem;
+  border: 1px solid var(--cor-input-border);
+  font-size: 1rem;
+  background-color: #fff;
+  color: var(--cor-texto);
+  transition: border 0.3s ease-in-out;
+}
+
+select:focus {
+  border-color: var(--cor-input-focus);
+  outline: none;
+}
+
+.obrigatorio::after{
+   content: " *";
+   color: red;
+}

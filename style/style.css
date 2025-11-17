@@ -1,0 +1,398 @@
+:root {
+  /* Cores gerais */
+  --cor-fundo-pagina: #f0f4f8;
+  --cor-fundo-form: #ffffff;
+  --cor-texto: #222222;
+  --cor-borda-input: #cccccc;
+  --cor-botao: #2e7d32;
+  --cor-botao-hover: #388e3c;
+  --dourado: rgb(212, 175, 55);
+  --verde-menta: rgb(176, 224, 198); /* cor do leite */
+}
+
+/* Reset básico.. não rela nisso aqui*/
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+/* ========= BODY & TÍTULOS ========= */
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: var(--cor-fundo-pagina);
+  color: var(--cor-texto);
+  padding: 0;
+  margin: 0;
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+main{
+  flex: 1;
+}
+
+h2 {
+  text-align: center;
+  color: var(--dourado);
+  margin-bottom: 2rem;
+  font-size: 1.8rem;
+  margin-top: 0;
+  padding-top: 1rem;
+}
+
+/* ========= FORMULÁRIO ========= */
+
+form {
+  padding: 1.5rem;
+  border-radius: 10px;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+  margin-bottom: 3rem;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+}
+
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.full-width {
+  grid-column: 1 / -1;
+}
+
+label {
+  font-weight: 600;
+  color: var(--cor-texto);
+  margin-bottom: 0.4rem;
+  font-size: 1rem;
+}
+
+input,
+textarea,
+select {
+  padding: 0.75rem;
+  border: 1px solid var(--cor-borda-input);
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 100%;
+  background-color: #fff;
+  color: var(--cor-texto);
+  transition: border-color 0.2s ease-in-out;
+}
+
+input:focus,
+textarea:focus,
+select:focus {
+  border-color: var(--cor-botao);
+  outline: none;
+}
+
+textarea {
+  resize: vertical;
+}
+
+input[type='submit'] {
+  background-color: var(--cor-botao);
+  color: white;
+  font-weight: bold;
+  border: none;
+  padding: 0.9rem 1.8rem;
+  border-radius: 5px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+  width: fit-content;
+  align-self: flex-end;
+}
+
+input[type='submit']:hover {
+  background-color: var(--cor-botao-hover);
+  transform: scale(1.05);
+}
+
+input.erro {
+  border: 2px solid red;
+}
+
+.obrigatorio::after{
+   content: " *";
+   color: red;
+}
+
+/* ========= RESPONSIVIDADE ========= */
+
+@media (max-width: 700px) {
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  input[type='submit'] {
+    align-self: stretch;
+    width: 100%;
+    text-align: center;
+  }
+
+  body {
+    padding: 0.5rem;
+  }
+
+  form {
+    padding: 1rem;
+  }
+}
+
+.estoque-container {
+  margin: 40px auto;
+  padding: 20px;
+  max-width: 1200px;
+  text-align: center;
+}
+
+.tipos-leite {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+}
+
+.caixa-leite {
+  background: #fff;
+  border: 2px solid var(--dourado);
+  border-radius: 15px;
+  width: 200px;
+  padding: 20px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+  position: relative;
+  overflow: hidden;
+}
+
+/* Container da mamadeira */
+.mamadeira-container {
+  position: relative;
+  width: 70px;
+  margin: 20px auto 15px; /* aumenta o margin-top para descer a mamadeira */
+}
+
+/* Bico da mamadeira realista */
+.bico {
+  position: absolute;
+  top: -15px; /* sobe menos para não encostar no título */
+  left: 50%;
+  transform: translateX(-50%);
+  width: 28px;       
+  height: 35px;      
+  background: #ffd480; 
+  border-radius: 50% 50% 40% 40%;
+  border: 2px solid #c9a04a;
+  box-shadow: inset -1px -2px 2px rgba(0,0,0,0.2);
+}
+
+.bico::after {
+  content: '';
+  position: absolute;
+  bottom: -5px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 12px;
+  height: 12px;
+  background: #ffd480;
+  border-radius: 50%;
+  border: 1px solid #c9a04a;
+}
+
+
+
+/* Mamadeira */
+.mamadeira {
+  position: relative;
+  width: 100%;
+  height: 160px;
+  background: linear-gradient(to top, #fefefe, #fafafa);
+  border: 2px solid #aaa;
+  border-radius: 10px 10px 5px 5px;
+  box-shadow: inset 0 0 5px rgba(0,0,0,0.1);
+  overflow: hidden;
+  z-index: 1;
+}
+
+/* Nível do leite */
+.nivel {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: linear-gradient(to top, #fef4d6, #fff8e1); /* leite mais escuro */
+  transition: height 0.8s ease;
+  border-top-left-radius: 8px;
+  border-top-right-radius: 8px;
+  overflow: hidden;
+}
+
+
+/* Onda */
+.onda {
+  position: absolute;
+  bottom: 0;
+  width: 200%;
+  height: 20px;
+  background: rgba(210, 180, 140, 0.6); /* bege/marrom claro mais visível */
+  border-radius: 100%;
+  animation: wave 2s infinite linear;
+}
+
+
+@keyframes wave {
+  from { transform: translateX(0); }
+  to { transform: translateX(-50%); }
+}
+
+/* Medidores de ml */
+.marcadores {
+  position: absolute;
+  left: -50px;
+  top: 20px;
+  height: 120px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+.marcadores span {
+  font-size: 0.75rem;
+  color: #666;
+  user-select: none;
+}
+
+
+/* ===== BOTOES ===== */
+.botoes button {
+  background-color: var(--verde-escuro);
+  color: #fff;
+  border: none;
+  border-radius: 8px;
+  margin: 5px;
+  padding: 6px 12px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.botoes button:hover {
+  background-color: var(--dourado);
+  transform: scale(1.1);
+}
+
+.log-estoque {
+  margin-top: 40px;
+  text-align: left;
+  max-width: 600px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.log-estoque ul {
+  list-style: none;
+  padding: 0;
+}
+
+.log-estoque li {
+  background: #fafafa;
+  border-left: 5px solid var(--verde-escuro);
+  margin-bottom: 10px;
+  padding: 10px;
+  border-radius: 8px;
+}
+
+.form-estoque {
+  background: #f9f9f9;
+  border: 2px solid #d4af37;
+  border-radius: 10px;
+  padding: 10px;
+  margin-top: 10px;
+}
+
+/* ======= NOVOS ELEMENTOS ADICIONADOS ======= */
+.input-estoque-qtd {
+  width: 100%;
+  padding: 8px;
+  border: 1px solid #aaa;
+  border-radius: 6px;
+  margin-top: 8px;
+  margin-bottom: 8px;
+  text-align: center;
+  font-size: 1rem;
+  background-color: #fff;
+  color: #222;
+}
+
+/* Botão Confirmar */
+.btn-confirmar-estoque {
+  width: 100%;
+  background-color: var(--cor-botao);
+  color: white;
+  border: none;
+  border-radius: 6px;
+  padding: 10px;
+  cursor: pointer;
+  font-weight: bold;
+  font-size: 1rem;
+  transition: background-color 0.3s ease, transform 0.2s ease;
+}
+
+.btn-confirmar-estoque:hover {
+  background-color: var(--cor-botao-hover);
+  transform: scale(1.05);
+}
+
+/* ======= ESTILOS EXISTENTES (mantidos) ======= */
+.botoes-confirmacao {
+  display: flex;
+  justify-content: space-between;
+}
+
+.btn-confirma {
+  flex: 1;
+  margin-right: 5px;
+  padding: 8px;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: bold;
+  transition: 0.3s;
+}
+
+.btn-entrada {
+  background-color: #2c6b2f;
+  color: white;
+}
+
+.btn-saida {
+  background-color: #ff7043;
+  color: white;
+}
+
+.btn-cancelar {
+  flex: 1;
+  background: #999;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+.btn-cancelar:hover, .btn-confirma:hover {
+  opacity: 0.9;
+}
+
+

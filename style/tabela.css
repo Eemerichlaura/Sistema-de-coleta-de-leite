@@ -1,0 +1,150 @@
+/* ================= Container principal ================= */
+.doadoras-container {
+  max-width: 1100px;
+  margin: 2rem auto;
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+/* ================= Título ================= */
+.doadoras-container h2 {
+  text-align: center;
+  color: var(--verde-escuro);
+  margin-bottom: 1.5rem;
+}
+
+/* ================= Tabela ================= */
+.doadoras-container .styled-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 1rem;
+}
+
+.doadoras-container .styled-table thead {
+  background-color: var(--verde-menta-suave);
+  color: var(--preto);
+}
+
+.doadoras-container .styled-table th,
+.doadoras-container .styled-table td {
+  border: 1px solid #ddd;
+  padding: 12px 15px;
+  text-align: center;
+}
+
+.doadoras-container .styled-table tbody tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
+
+.doadoras-container .styled-table tbody tr:hover {
+  background-color: #f1f1f1;
+}
+
+/* ================= Ações ================= */
+.doadoras-container .acoes {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+}
+
+.doadoras-container .acoes a {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 6px 12px;
+  border-radius: 6px;
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.doadoras-container .acoes a.visualizar { background-color: #17a2b8; }
+.doadoras-container .acoes a.editar { background-color: #007bff; }
+.doadoras-container .acoes a.excluir { background-color: #dc3545; }
+
+.doadoras-container .acoes a:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+/* ================= Popup ================= */
+.doadoras-container .popup-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.5);
+  display: none;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.doadoras-container .popup {
+  background-color: #fff;
+  padding: 2rem;
+  border-radius: 10px;
+  text-align: center;
+  max-width: 400px;
+  width: 90%;
+  box-shadow: 0 0 10px rgba(0,0,0,0.3);
+}
+
+.doadoras-container .popup h3 {
+  margin-bottom: 1rem;
+  color: var(--verde-escuro);
+}
+
+.doadoras-container .popup p {
+  margin-bottom: 2rem;
+  font-size: 1rem;
+}
+
+.doadoras-container .popup p span.nome-doadora {
+  font-weight: bold;
+  color: #dc3545;
+}
+
+.doadoras-container .popup-buttons {
+  display: flex;
+  justify-content: center;
+  gap: 15px;
+}
+
+.doadoras-container .popup-buttons button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.doadoras-container .popup-buttons .confirm {
+  background-color: #dc3545;
+  color: #fff;
+}
+
+.doadoras-container .popup-buttons .cancel {
+  background-color: #6c757d;
+  color: #fff;
+}
+
+.doadoras-container .popup-buttons button:hover {
+  opacity: 0.9;
+  transform: scale(1.05);
+}
+
+/* ================= Popup de sucesso ================= */
+.doadoras-container .popup-success h3 {
+  color: #28a745; /* verde sucesso */
+}
+
+.doadoras-container .popup-success .confirm {
+  background-color: #28a745;
+  color: #fff;
+}

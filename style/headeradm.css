@@ -1,0 +1,204 @@
+:root {
+  --dourado-principal: rgb(212, 175, 55);
+  --verde-menta-suave: rgb(176, 224, 198);
+  --verde-escuro: rgb(44, 107, 47);
+  --preto: rgb(0, 0, 0);
+  --laranja: rgb(255, 112, 67);
+  --amarelo-claro: rgb(255, 215, 0);
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  overflow-x: hidden;
+}
+
+header {
+  background-color: red;
+  box-sizing: border-box;
+  color: white;
+  display: flex;
+  margin-bottom: 1rem;
+  align-items: center;
+  justify-content: space-between;
+  padding: 1.5rem 3rem;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+/* Remove espaçamento extra após o header */
+header + * {
+  margin-top: 0 !important;
+}
+
+/* Logo */
+.logo-container {
+  flex-shrink: 0;
+}
+
+.logo {
+  width: 8rem;
+  height: auto;
+}
+
+/* Menu normal (desktop) */
+nav {
+  flex-grow: 1;
+  display: flex;
+  justify-content: center; /* MENU NORMAL CENTRALIZADO */
+  position: relative;
+}
+
+nav ul.nav-list {
+  display: flex;
+  justify-content: center;
+  list-style-type: none;
+  padding: 0;
+  margin: 0;
+}
+
+nav ul.nav-list li {
+  margin: 0 2rem;
+}
+
+nav ul.nav-list li a {
+  color: var(--preto);
+  text-decoration: none;
+  font-size: 1.2rem;
+  font-weight: bold;
+  transition: color 0.5s, transform 0.3s;
+}
+
+nav ul.nav-list li a:hover {
+  color: var(--dourado-principal);
+  transform: scale(1.1);
+}
+
+/* Botão hamburguer */
+.hamburger {
+  display: none;
+  font-size: 2.5rem;
+  cursor: pointer;
+  user-select: none;
+  color: var(--verde-escuro);
+  margin-left: auto; /* empurra para a direita */
+  transition: color 0.3s ease;
+}
+
+/* Hover do botão hamburguer */
+.hamburger:hover {
+  color: var(--dourado-principal);
+}
+
+/* MOBILE MENU */
+.mobile-menu {
+  position: fixed;
+  top: 0;
+  right: 0;
+  width: 100%;
+  height: 100%;
+  background-color: #f9f9f9;
+  z-index: 999;
+  box-shadow: -2px 0 10px rgba(0, 0, 0, 0.25);
+  padding: 2rem 1.5rem;
+  flex-direction: column;
+  gap: 2rem;
+  display: flex;
+
+  transform: translateX(100%);
+  transition: transform 0.4s ease-in-out;
+  opacity: 0;
+  pointer-events: none;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.mobile-menu.open {
+  transform: translateX(0%);
+  opacity: 1;
+  pointer-events: all;
+}
+
+.mobile-menu-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 3rem;
+}
+
+/* Ícone da casinha */
+.home-icon {
+  font-size: 2.5rem;
+  color: var(--verde-escuro);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.home-icon:hover {
+  color: var(--dourado-principal);
+}
+
+/* Botão fechar modernizado */
+.close-btn {
+  font-size: 2.8rem;
+  background: none;
+  border: none;
+  color: var(--verde-escuro);
+  cursor: pointer;
+  padding: 0 0.2rem;
+  line-height: 1;
+  transition: color 0.3s ease;
+}
+
+.close-btn:hover {
+  color: var(--dourado-principal);
+}
+
+/* Links menu mobile */
+.mobile-menu a {
+  color: var(--verde-escuro);
+  text-decoration: none;
+  font-size: 1.6rem;
+  font-weight: 700;
+  padding: 0.8rem 1.2rem;
+  border-radius: 6px;
+  transition: background-color 0.3s, color 0.3s, box-shadow 0.3s;
+  box-shadow: none;
+  display: block;
+}
+
+/* Hover dos links menu mobile */
+.mobile-menu a:hover {
+  background-color: var(--dourado-principal);
+  color: white;
+  box-shadow: 0 4px 8px rgba(212, 175, 55, 0.5);
+}
+
+/* Overlay escuro para o fundo quando o menu mobile abrir */
+.overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.5);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease-in-out;
+  z-index: 998; /* abaixo do menu mobile */
+}
+
+.overlay.active {
+  opacity: 1;
+  pointer-events: all;
+}
+
+/* RESPONSIVIDADE */
+@media (max-width: 980px) {
+  nav ul.nav-list {
+    display: none;
+  }
+
+  .hamburger {
+    display: block;
+  }
+}
