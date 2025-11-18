@@ -22,6 +22,20 @@ if ($result->num_rows === 0) {
 $bebe = $result->fetch_assoc();
 $stmt->close();
 
+// Busca o nome do funcionário que cadastrou o bebê
+$nome_funcionario = "Desconhecido";
+if(!empty($bebe['id_funcionario'])){
+    $stmt = $conn->prepare("SELECT nome FROM usuarios WHERE id = ?");
+    $stmt->bind_param("i", $bebe['id_funcionario']);
+    $stmt->execute();
+    $res = $stmt->get_result();
+    if($res->num_rows > 0){
+        $func = $res->fetch_assoc();
+        $nome_funcionario = $func['nome'];
+    }
+    $stmt->close();
+}
+
 // Função para mascarar CPF
 function mask_cpf($cpf) {
     $digits = preg_replace('/\D+/', '', $cpf);
@@ -105,29 +119,29 @@ $cpf_bebe_full = format_cpf($bebe['cpf_bebe']);
     <h3 style="grid-column:1/-1; color:#2c6b2f; margin-top:1rem; border-bottom:2px solid #2c6b2f; padding-bottom:0.25rem;">Dados do Bebê</h3>
 
     <div class="detalhes-bebe-field">
-      <label>Nome do Bebê</label>
+      <label>Nome do Bebê:</label>
       <div class="detalhes-bebe-value"><?= htmlspecialchars($bebe['nome_bebe']) ?></div>
     </div>
     <div class="detalhes-bebe-field">
-      <label>Sexo</label>
+      <label>Sexo:</label>
       <div class="detalhes-bebe-value"><?= ucfirst($bebe['sexo_bebe']) ?></div>
     </div>
 
     <div class="detalhes-bebe-field">
-  <label>Unidade de Saúde</label>
+  <label>Unidade de Saúde:</label>
   <div class="detalhes-bebe-value"><?= htmlspecialchars($bebe['unidade_saude']) ?></div>
 </div>
 
     <div class="detalhes-bebe-field">
-      <label>Data de Nascimento</label>
+      <label>Data de Nascimento:</label>
       <div class="detalhes-bebe-value"><?= date('d/m/Y', strtotime($bebe['data_nascimento_bebe'])) ?></div>
     </div>
     <div class="detalhes-bebe-field">
-      <label>Situação Clínica</label>
+      <label>Situação Clínica:</label>
       <div class="detalhes-bebe-value"><?= htmlspecialchars($bebe['situacao_clinica']) ?></div>
     </div>
     <div class="detalhes-bebe-field">
-      <label>CPF do Bebê</label>
+      <label>CPF do Bebê:</label>
       <div class="detalhes-bebe-cpf-row">
         <div id="cpfBebeField" class="detalhes-bebe-cpf"><?= htmlspecialchars($cpf_bebe_masked) ?></div>
         <button id="toggleCpfBebeBtn" class="detalhes-bebe-btn" type="button">Mostrar CPF</button>
@@ -136,7 +150,7 @@ $cpf_bebe_full = format_cpf($bebe['cpf_bebe']);
       </div>
     </div>
     <div class="detalhes-bebe-field detalhes-bebe-observacoes">
-      <label>Observações médicas</label>
+      <label>Observações médicas:</label>
       <div class="detalhes-bebe-value"><?= nl2br(htmlspecialchars($bebe['observacoes_bebe'] ?: 'Nenhuma')) ?></div>
     </div>
 
@@ -144,15 +158,15 @@ $cpf_bebe_full = format_cpf($bebe['cpf_bebe']);
     <h3 style="grid-column:1/-1; color:#2c6b2f; margin-top:2rem; border-bottom:2px solid #2c6b2f; padding-bottom:0.25rem;">Dados do Responsável</h3>
 
     <div class="detalhes-bebe-field">
-      <label>Nome do Responsável</label>
+      <label>Nome do Responsável:</label>
       <div class="detalhes-bebe-value"><?= htmlspecialchars($bebe['nome_responsavel']) ?></div>
     </div>
     <div class="detalhes-bebe-field">
-      <label>Telefone do Responsável</label>
+      <label>Telefone do Responsável:</label>
       <div class="detalhes-bebe-value"><?= htmlspecialchars($bebe['telefone_responsavel']) ?></div>
     </div>
     <div class="detalhes-bebe-field">
-      <label>CPF do Responsável</label>
+      <label>CPF do Responsável:</label>
       <div class="detalhes-bebe-cpf-row">
         <div id="cpfRespField" class="detalhes-bebe-cpf"><?= htmlspecialchars($cpf_responsavel_masked) ?></div>
         <button id="toggleCpfRespBtn" class="detalhes-bebe-btn" type="button">Mostrar CPF</button>
@@ -160,6 +174,11 @@ $cpf_bebe_full = format_cpf($bebe['cpf_bebe']);
         <span id="copyRespMsg" class="detalhes-bebe-copy-msg">Copiado!</span>
       </div>
     </div>
+</div><br>
+
+<div class="detalhes-bebe-field">
+  <label>Funcionário responsável pelo cadastro:</label>
+  <div class="detalhes-bebe-value"><?= htmlspecialchars($nome_funcionario) ?></div>
 </div>
 
 

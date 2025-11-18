@@ -7,9 +7,10 @@ include "processamento/verifica-funcionario.php";
 $search = '';
 if (isset($_GET['q']) && !empty(trim($_GET['q']))) {
     $search = trim($_GET['q']);
-    $sql = "SELECT r.id, b.nome_bebe, r.data_retirada, r.quantidade_ml, r.tipo_leite 
+    $sql = "SELECT r.id, b.nome_bebe, r.data_retirada, r.quantidade_ml, r.tipo_leite, u.nome AS funcionario_nome
             FROM retiradas r
             INNER JOIN bebes b ON r.bebe_id = b.id
+            INNER JOIN usuarios u ON r.id_funcionario = u.id
             WHERE b.nome_bebe LIKE ?
             ORDER BY r.data_retirada DESC";
     $stmt = $conn->prepare($sql);
@@ -18,9 +19,10 @@ if (isset($_GET['q']) && !empty(trim($_GET['q']))) {
     $stmt->execute();
     $result = $stmt->get_result();
 } else {
-    $sql = "SELECT r.id, b.nome_bebe, r.data_retirada, r.quantidade_ml, r.tipo_leite 
+    $sql = "SELECT r.id, b.nome_bebe, r.data_retirada, r.quantidade_ml, r.tipo_leite, u.nome AS funcionario_nome
             FROM retiradas r
             INNER JOIN bebes b ON r.bebe_id = b.id
+            INNER JOIN usuarios u ON r.id_funcionario = u.id
             ORDER BY r.data_retirada DESC";
     $result = $conn->query($sql);
 }
@@ -115,6 +117,7 @@ form.search-form {
           <th>Data</th>
           <th>Quantidade (ml)</th>
           <th>Tipo de Leite</th>
+          <th>Funcionário</th>
           <th>Ações</th>
         </tr>
       </thead>
@@ -126,6 +129,7 @@ form.search-form {
             <td><?= date('d/m/Y', strtotime($row['data_retirada'])) ?></td>
             <td><?= htmlspecialchars($row['quantidade_ml']) ?></td>
             <td><?= str_replace('_', ' ', ucfirst($row['tipo_leite'])) ?></td>
+            <td><?= htmlspecialchars($row['funcionario_nome']) ?></td>
             <td class="acoes">
               <a class="editar" href="editar-retirada.php?id=<?= $row['id'] ?>" title="Editar">
                 <span class="material-icons">edit</span>
@@ -137,7 +141,7 @@ form.search-form {
           </tr>
           <?php endwhile; ?>
         <?php else: ?>
-          <tr><td colspan="5">Nenhuma retirada encontrada.</td></tr>
+          <tr><td colspan="6">Nenhuma retirada encontrada.</td></tr>
         <?php endif; ?>
       </tbody>
     </table>

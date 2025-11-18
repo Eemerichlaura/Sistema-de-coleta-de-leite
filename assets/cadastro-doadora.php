@@ -65,10 +65,20 @@
 </style>
 </head>
 <body>
-<?php include "header.php"; ?>
+
+<?php
+// ADICIONADO: garantir sessão ativa
+if (session_status() === PHP_SESSION_NONE) {
+    session_start();
+}
+include "header.php";
+?>
 
 <h2>Cadastrar Doadora</h2>
 <form id="formDoadora" action="processamento/processa-doadora.php" method="post">
+
+  <!-- ADICIONADO: enviar ID do funcionário -->
+
   <div class="form-grid">
     <div class="form-group">
       <label class="obrigatorio" for="nome">Nome completo:</label>
@@ -77,7 +87,7 @@
 
     <div class="form-group">
       <label class="obrigatorio" for="cpf">CPF:</label>
-      <input type="text" id="cpf" name="cpf" placeholder="000.000.000-00" required>
+      <input type="text" id="cpf" name="cpf" placeholder="Apenas números" required>
       <small id="cpf-erro" style="color:red; display:none;">CPF inválido</small>
     </div>
 
@@ -88,12 +98,12 @@
 
     <div class="form-group">
       <label class="obrigatorio" for="telefone">Contato/Telefone:</label>
-      <input type="tel" id="telefone" name="telefone" placeholder="(00) 00000-0000" required>
+      <input type="tel" id="telefone" name="telefone" placeholder="Apenas números" required>
     </div>
 
     <div class="form-group">
       <label class="obrigatorio" for="cep">CEP:</label>
-      <input type="text" id="cep" name="cep" placeholder="00000-000" required>
+      <input type="text" id="cep" name="cep" placeholder="Apenas números" required>
       <small id="cep-erro" style="color:red; display:none;">CEP inválido</small>
     </div>
 
@@ -117,10 +127,11 @@
       <textarea id="observacoes" name="observacoes" placeholder="Alergias, medicamentos, etc..." rows="4"></textarea>
     </div>
   </div>
+
   <input type="submit" value="Enviar">
 </form>
 
-<!-- Popups com classes específicas para evitar conflito -->
+<!-- Popups -->
 <div class="popup-overlay popup-overlay-custom" id="popupSuccess">
   <div class="popup-custom">
     <h3>Cadastro efetuado com sucesso!</h3>
@@ -145,7 +156,6 @@ document.addEventListener('DOMContentLoaded', () => {
   const telefoneInput = document.getElementById('telefone');
   const cepInput = document.getElementById('cep');
 
-  // ================= VALIDAÇÃO CPF =================
   function isValidCPF(cpf){
     cpf = cpf.replace(/\D/g,'');
     if(cpf.length !== 11 || /^(\d)\1+$/.test(cpf)) return false;
@@ -172,7 +182,6 @@ document.addEventListener('DOMContentLoaded', () => {
     cpfInput.value=v;
   });
 
-  // ================= MÁSCARA TELEFONE =================
   telefoneInput.addEventListener('input', ()=>{
     let v=telefoneInput.value.replace(/\D/g,'');
     v=v.replace(/^(\d{2})(\d)/,'($1) $2');
@@ -180,14 +189,12 @@ document.addEventListener('DOMContentLoaded', () => {
     telefoneInput.value=v;
   });
 
-  // ================= MÁSCARA CEP =================
   cepInput.addEventListener('input', ()=>{
     let v=cepInput.value.replace(/\D/g,'');
     if(v.length>5) v=v.replace(/^(\d{5})(\d)/,'$1-$2');
     cepInput.value=v;
   });
 
-  // ================= AUTOCOMPLETE CEP =================
   cepInput.addEventListener('blur', ()=>{
     let cep=cepInput.value.replace(/\D/g,'');
     if(cep.length!==8){ 
@@ -207,10 +214,9 @@ document.addEventListener('DOMContentLoaded', () => {
           document.getElementById('endereco').value=data.logradouro; 
           document.getElementById('bairro').value=data.bairro; 
         }
-      }).catch(err=>console.error(err));
+      });
   });
 
-  // ================= ENVIO FORM =================
   form.addEventListener('submit', e=>{
     e.preventDefault();
     if(!isValidCPF(cpfInput.value)){ 
@@ -233,13 +239,10 @@ document.addEventListener('DOMContentLoaded', () => {
         } else if(data==='duplicado'){
           popupError.style.display='flex';
           setTimeout(()=>popupError.style.display='none',3000);
-        } else { 
-          console.error('Erro inesperado: '+data); 
         }
-      }).catch(err=>console.error('Erro no fetch:',err));
+      });
   });
 
-  // Fechar popups clicando fora
   [popupSuccess,popupError].forEach(popup=>{
     popup.addEventListener('click', e=>{
       if(e.target===popup) popup.style.display='none';

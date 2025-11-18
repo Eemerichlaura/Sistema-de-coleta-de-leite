@@ -24,8 +24,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['excluir_id'])) {
     exit;
 }
 
-// Busca os dados da doadora
-$stmt = $conn->prepare("SELECT * FROM doadoras WHERE id = ?");
+// Busca os dados da doadora junto com o nome do funcionário que cadastrou
+$stmt = $conn->prepare("
+    SELECT d.*, u.nome AS funcionario_nome
+    FROM doadoras d
+    LEFT JOIN usuarios u ON d.id_funcionario = u.id
+    WHERE d.id = ?
+");
 $stmt->bind_param("i", $id);
 $stmt->execute();
 $result = $stmt->get_result();
@@ -129,13 +134,13 @@ $cpf_full = format_cpf($doadora['cpf']);
   <h2 class="detalhes-doadora-title">Detalhes da Doadora</h2>
 
   <div class="detalhes-doadora-grid">
-    <div class="detalhes-doadora-field"><label>Nome</label><div class="detalhes-doadora-value"><?= htmlspecialchars($doadora['nome']) ?></div></div>
-    <div class="detalhes-doadora-field"><label>Data de Nascimento</label><div class="detalhes-doadora-value"><?= date('d/m/Y', strtotime($doadora['data_nascimento'])) ?></div></div>
-    <div class="detalhes-doadora-field"><label>Telefone</label><div class="detalhes-doadora-value"><?= htmlspecialchars($doadora['telefone']) ?></div></div>
-    <div class="detalhes-doadora-field"><label>CEP</label><div class="detalhes-doadora-value"><?= htmlspecialchars($doadora['cep']) ?></div></div>
-    <div class="detalhes-doadora-field"><label>Endereço</label><div class="detalhes-doadora-value"><?= htmlspecialchars($doadora['endereco']) ?>, Nº <?= htmlspecialchars($doadora['numero']) ?> — <?= htmlspecialchars($doadora['bairro']) ?></div></div>
+    <div class="detalhes-doadora-field"><label>Nome:</label><div class="detalhes-doadora-value"><?= htmlspecialchars($doadora['nome']) ?></div></div>
+    <div class="detalhes-doadora-field"><label>Data de Nascimento:</label><div class="detalhes-doadora-value"><?= date('d/m/Y', strtotime($doadora['data_nascimento'])) ?></div></div>
+    <div class="detalhes-doadora-field"><label>Telefone:</label><div class="detalhes-doadora-value"><?= htmlspecialchars($doadora['telefone']) ?></div></div>
+    <div class="detalhes-doadora-field"><label>CEP:</label><div class="detalhes-doadora-value"><?= htmlspecialchars($doadora['cep']) ?></div></div>
+    <div class="detalhes-doadora-field"><label>Endereço:</label><div class="detalhes-doadora-value"><?= htmlspecialchars($doadora['endereco']) ?>, Nº <?= htmlspecialchars($doadora['numero']) ?> — <?= htmlspecialchars($doadora['bairro']) ?></div></div>
 
-    <div class="detalhes-doadora-field"><label>CPF</label>
+    <div class="detalhes-doadora-field"><label>CPF:</label>
       <div class="detalhes-doadora-cpf-row">
         <div id="cpfField" class="detalhes-doadora-cpf"><?= htmlspecialchars($cpf_masked) ?></div>
         <button id="toggleCpfBtn" class="detalhes-doadora-btn" type="button">Mostrar CPF</button>
@@ -144,10 +149,16 @@ $cpf_full = format_cpf($doadora['cpf']);
       </div>
     </div>
 
-    <div class="detalhes-doadora-field"><label>Observações médicas</label>
+    <div class="detalhes-doadora-field"><label>Observações médicas:</label>
       <div class="detalhes-doadora-value"><?= nl2br(htmlspecialchars($doadora['observacoes']) ?: 'Nenhuma') ?></div>
     </div>
-  </div>
+  </div><br>
+
+  <div class="detalhes-doadora-field">
+    <label>Funcionário responsável pelo cadastro:</label>
+    <div class="detalhes-doadora-value"><?= htmlspecialchars($doadora['funcionario_nome'] ?? 'Não informado') ?></div>
+</div>
+
 
   <div class="detalhes-doadora-actions">
     <a href="editar-doadora.php?id=<?= $doadora['id'] ?>" class="detalhes-doadora-link">Editar</a>

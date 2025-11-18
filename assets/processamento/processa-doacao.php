@@ -1,4 +1,7 @@
 <?php
+session_start(); // necessário para acessar $_SESSION
+include(__DIR__ . '/verifica-funcionario.php'); // garante que só funcione para funcionários logados
+
 $host = "localhost";
 $user = "root"; 
 $pass = "";
@@ -14,6 +17,9 @@ $data_doacao = $_POST['datadoacao'];
 $quantidade_ml = str_replace(',', '.', $_POST['qtdleite']);
 $tipo_leite = $_POST['tipo_leite'];
 
+// Captura o ID do funcionário logado
+$id_funcionario = $_SESSION['id'] ?? 0;
+
 // Validação
 if (!$doadora_id || !$data_doacao || !$quantidade_ml || !$tipo_leite) {
     die("❌ Campos obrigatórios ausentes.");
@@ -21,11 +27,12 @@ if (!$doadora_id || !$data_doacao || !$quantidade_ml || !$tipo_leite) {
 
 if($id > 0){
     // === EDIÇÃO ===
-    $sql = "UPDATE doacoes SET doadora_id=?, data_doacao=?, quantidade_ml=?, tipo_leite=? WHERE id=?";
+    $sql = "UPDATE doacoes 
+            SET doadora_id=?, data_doacao=?, quantidade_ml=?, tipo_leite=?, id_funcionario=?
+            WHERE id=?";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isdsi", $doadora_id, $data_doacao, $quantidade_ml, $tipo_leite, $id);
+    $stmt->bind_param("isdsii", $doadora_id, $data_doacao, $quantidade_ml, $tipo_leite, $id_funcionario, $id);
     if($stmt->execute()){
-        // Redireciona para a página de edição com popup
         header("Location: ../editar-doacao.php?id=$id&msg=editado");
         exit;
     } else {
@@ -33,12 +40,11 @@ if($id > 0){
     }
 } else {
     // === INSERÇÃO ===
-    $sql = "INSERT INTO doacoes (doadora_id, data_doacao, quantidade_ml, tipo_leite) 
-            VALUES (?, ?, ?, ?)";
+    $sql = "INSERT INTO doacoes (doadora_id, data_doacao, quantidade_ml, tipo_leite, id_funcionario) 
+            VALUES (?, ?, ?, ?, ?)";
     $stmt = $conn->prepare($sql);
-    $stmt->bind_param("isds", $doadora_id, $data_doacao, $quantidade_ml, $tipo_leite);
+    $stmt->bind_param("isdsd", $doadora_id, $data_doacao, $quantidade_ml, $tipo_leite, $id_funcionario);
     if($stmt->execute()){
-        // Redireciona para a página de cadastro com popup
         header("Location: ../cadastrar-doacao.php?msg=cadastrado");
         exit;
     } else {

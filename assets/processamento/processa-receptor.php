@@ -1,4 +1,5 @@
 <?php
+session_start(); // precisa iniciar a sessão para pegar o id do funcionário
 $host = "localhost";
 $user = "root";
 $pass = "";
@@ -30,6 +31,14 @@ $endereco_resp = $conn->real_escape_string($_POST['endrespbebe']);
 $bairro_resp = $conn->real_escape_string($_POST['bairrorespbebe']);
 $numero_resp = $conn->real_escape_string($_POST['numrespbebe']);
 
+// Pega o id do funcionário logado
+$id_funcionario = $_SESSION['id'] ?? null; // certifica-se que está logado
+
+if(!$id_funcionario){
+    echo 'erro'; // sem funcionário logado
+    exit;
+}
+
 // Verifica duplicidade CPF bebê
 $stmt = $conn->prepare("SELECT id FROM bebes WHERE cpf_bebe = ?");
 $stmt->bind_param("s", $cpf_bebe);
@@ -53,18 +62,20 @@ if($cpf_bebe_existe || $cpf_resp_existe){
     exit;
 }
 
-// Inserção no banco
+// Inserção no banco com id_funcionario
 $sql = "INSERT INTO bebes (
     nome_bebe, sexo_bebe, cpf_bebe, data_nascimento_bebe, unidade_saude, situacao_clinica, observacoes_bebe,
     nome_responsavel, sexo_responsavel, pronomes_responsavel, cpf_responsavel, data_nascimento_responsavel,
-    telefone_responsavel, cep_responsavel, endereco_responsavel, numero_responsavel, bairro_responsavel
-) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
+    telefone_responsavel, cep_responsavel, endereco_responsavel, numero_responsavel, bairro_responsavel,
+    id_funcionario
+) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
 $stmt = $conn->prepare($sql);
-$stmt->bind_param("sssssssssssssssss",
+$stmt->bind_param("sssssssssssssssssi",
     $nome_bebe, $sexo_bebe, $cpf_bebe, $data_nascimento_bebe, $unidade_saude, $situacao_clinica, $observacoes_bebe,
     $nome_resp, $sexo_resp, $pronomes_resp, $cpf_resp, $data_nascimento_resp,
-    $telefone_resp, $cep_resp, $endereco_resp, $numero_resp, $bairro_resp
+    $telefone_resp, $cep_resp, $endereco_resp, $numero_resp, $bairro_resp,
+    $id_funcionario
 );
 
 if($stmt->execute()){

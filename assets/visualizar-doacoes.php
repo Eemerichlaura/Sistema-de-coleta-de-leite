@@ -7,9 +7,11 @@ include "processamento/verifica-funcionario.php";
 $search = '';
 if (isset($_GET['q']) && !empty(trim($_GET['q']))) {
     $search = trim($_GET['q']);
-    $sql = "SELECT doacoes.id, doadoras.nome AS doadora_nome, doacoes.data_doacao, doacoes.quantidade_ml, doacoes.tipo_leite
+    $sql = "SELECT doacoes.id, doadoras.nome AS doadora_nome, doacoes.data_doacao, doacoes.quantidade_ml, doacoes.tipo_leite,
+                   usuarios.nome AS funcionario_nome
             FROM doacoes
             INNER JOIN doadoras ON doacoes.doadora_id = doadoras.id
+            INNER JOIN usuarios ON doacoes.id_funcionario = usuarios.id
             WHERE doadoras.nome LIKE ?
             ORDER BY doacoes.data_doacao DESC";
     $stmt = $conn->prepare($sql);
@@ -18,9 +20,11 @@ if (isset($_GET['q']) && !empty(trim($_GET['q']))) {
     $stmt->execute();
     $result = $stmt->get_result();
 } else {
-    $sql = "SELECT doacoes.id, doadoras.nome AS doadora_nome, doacoes.data_doacao, doacoes.quantidade_ml, doacoes.tipo_leite
+    $sql = "SELECT doacoes.id, doadoras.nome AS doadora_nome, doacoes.data_doacao, doacoes.quantidade_ml, doacoes.tipo_leite,
+                   usuarios.nome AS funcionario_nome
             FROM doacoes
             INNER JOIN doadoras ON doacoes.doadora_id = doadoras.id
+            INNER JOIN usuarios ON doacoes.id_funcionario = usuarios.id
             ORDER BY doacoes.data_doacao DESC";
     $result = $conn->query($sql);
 }
@@ -205,6 +209,7 @@ form.search-form {
           <th>Data</th>
           <th>Quantidade (ml)</th>
           <th>Tipo de leite</th>
+          <th>Funcionário</th> <!-- nova coluna -->
           <th>Ações</th>
         </tr>
       </thead>
@@ -220,13 +225,14 @@ $tiposLeite = [
 ];
 ?>
 
-<<?php if ($result->num_rows > 0): ?>
+<?php if ($result->num_rows > 0): ?>
     <?php while ($row = $result->fetch_assoc()): ?>
         <tr>
             <td><?= htmlspecialchars($row['doadora_nome']) ?></td>
             <td><?= date('d/m/Y', strtotime($row['data_doacao'])) ?></td>
             <td><?= htmlspecialchars($row['quantidade_ml']) ?></td>
             <td><?= isset($tiposLeite[$row['tipo_leite']]) ? $tiposLeite[$row['tipo_leite']] : htmlspecialchars($row['tipo_leite']) ?></td>
+            <td><?= htmlspecialchars($row['funcionario_nome']) ?></td> <!-- nova coluna -->
             <td class="acoes">
                 <a class="editar" href="editar-doacao.php?id=<?= $row['id'] ?>" title="Editar">
                     <span class="material-icons">edit</span>
@@ -238,7 +244,7 @@ $tiposLeite = [
         </tr>
     <?php endwhile; ?>
 <?php else: ?>
-    <tr><td colspan="5">Nenhuma doação encontrada.</td></tr>
+    <tr><td colspan="6">Nenhuma doação encontrada.</td></tr>
 <?php endif; ?>
 
 </tbody>

@@ -25,9 +25,10 @@ if (empty($usuario) || empty($senha)) {
 // Determina se é CPF ou email
 $campo = filter_var($usuario, FILTER_VALIDATE_EMAIL) ? 'email' : 'cpf';
 
-// Prepara a consulta segura
+// Prepara a consulta
 $sql = "SELECT * FROM usuarios WHERE $campo = ?";
 $stmt = $conn->prepare($sql);
+
 if (!$stmt) {
     die("Erro na preparação da query: " . $conn->error);
 }
@@ -42,7 +43,6 @@ if ($result->num_rows === 0) {
     exit;
 }
 
-// Busca os dados do usuário
 $user = $result->fetch_assoc();
 
 // Verifica a senha
@@ -51,12 +51,12 @@ if (!password_verify($senha, $user['senha'])) {
     exit;
 }
 
-// Cria a sessão para o usuário
-$_SESSION['id'] = $user['id'];
-$_SESSION['nome'] = $user['nome'];
-$_SESSION['nivel'] = $user['nivel'];
+// SESSÕES PADRONIZADAS
+$_SESSION['id_funcionario'] = $user['id'];       // ID para salvar nas tabelas
+$_SESSION['nome_funcionario'] = $user['nome'];   // nome para exibir na interface
+$_SESSION['nivel_funcionario'] = $user['nivel']; // nível (admin / func)
 
-// Redireciona para a página principal
+// Redireciona
 header("Location: ../home.php");
 exit;
 ?>
