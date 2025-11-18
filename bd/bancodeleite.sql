@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: 127.0.0.1
--- Tempo de geração: 17/11/2025 às 22:51
+-- Tempo de geração: 18/11/2025 às 18:52
 -- Versão do servidor: 10.4.32-MariaDB
 -- Versão do PHP: 8.2.12
 
@@ -46,15 +46,16 @@ CREATE TABLE `bebes` (
   `endereco_responsavel` varchar(255) NOT NULL,
   `numero_responsavel` varchar(10) NOT NULL,
   `bairro_responsavel` varchar(100) NOT NULL,
-  `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
+  `criado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  `id_funcionario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `bebes`
 --
 
-INSERT INTO `bebes` (`id`, `nome_bebe`, `sexo_bebe`, `cpf_bebe`, `data_nascimento_bebe`, `unidade_saude`, `situacao_clinica`, `observacoes_bebe`, `nome_responsavel`, `sexo_responsavel`, `pronomes_responsavel`, `cpf_responsavel`, `data_nascimento_responsavel`, `telefone_responsavel`, `cep_responsavel`, `endereco_responsavel`, `numero_responsavel`, `bairro_responsavel`, `criado_em`) VALUES
-(22, 'pattotie', 'masculino', '541.262.118-02', '2025-11-03', 'UBS Central', 'Dificuldade de sucção', '', 'jose', 'feminino', 'ela-dela', '306.469.048-50', '2025-11-12', '(12) 13123-1333', '15905-020', 'Rua Doutor Joaquim Machado Faro Rolemberg', '12', 'Jardim Bela Vista', '2025-11-12 14:12:56');
+INSERT INTO `bebes` (`id`, `nome_bebe`, `sexo_bebe`, `cpf_bebe`, `data_nascimento_bebe`, `unidade_saude`, `situacao_clinica`, `observacoes_bebe`, `nome_responsavel`, `sexo_responsavel`, `pronomes_responsavel`, `cpf_responsavel`, `data_nascimento_responsavel`, `telefone_responsavel`, `cep_responsavel`, `endereco_responsavel`, `numero_responsavel`, `bairro_responsavel`, `criado_em`, `id_funcionario`) VALUES
+(23, 'pattotie', 'masculino', '032.084.928-71', '2025-11-18', 'UBS Leste', 'Prematuridade extrema', '', 'jose', 'masculino', 'ele-dele', '306.469.048-50', '2025-11-18', '(12) 13123-1333', '15905-020', 'Rua Doutor Joaquim Machado Faro Rolemberg', '12', 'Jardim Bela Vista', '2025-11-18 17:21:47', 33);
 
 -- --------------------------------------------------------
 
@@ -68,15 +69,16 @@ CREATE TABLE `doacoes` (
   `data_doacao` date NOT NULL,
   `quantidade_ml` decimal(10,2) NOT NULL,
   `tipo_leite` enum('leite_maduro','leite_transicao','leite_colostro','leite_humano_pasteurizado','leite_cru') NOT NULL,
-  `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
+  `criado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  `id_funcionario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `doacoes`
 --
 
-INSERT INTO `doacoes` (`id`, `doadora_id`, `data_doacao`, `quantidade_ml`, `tipo_leite`, `criado_em`) VALUES
-(33, 45, '2025-11-17', 150.00, 'leite_maduro', '2025-11-17 21:14:44');
+INSERT INTO `doacoes` (`id`, `doadora_id`, `data_doacao`, `quantidade_ml`, `tipo_leite`, `criado_em`, `id_funcionario`) VALUES
+(35, 47, '2025-11-18', 123.00, 'leite_transicao', '2025-11-18 17:33:38', 33);
 
 -- --------------------------------------------------------
 
@@ -95,15 +97,16 @@ CREATE TABLE `doadoras` (
   `numero` varchar(10) NOT NULL,
   `bairro` varchar(100) NOT NULL,
   `observacoes` text DEFAULT NULL,
-  `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
+  `criado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  `id_funcionario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `doadoras`
 --
 
-INSERT INTO `doadoras` (`id`, `nome`, `cpf`, `data_nascimento`, `telefone`, `cep`, `endereco`, `numero`, `bairro`, `observacoes`, `criado_em`) VALUES
-(45, 'Laura', '519.872.868-39', '2025-11-15', '(16) 99308-9219', '15905-020', 'Rua Doutor Joaquim Machado Faro Rolemberg', '12', 'Jardim Bela Vista', '', '2025-11-12 14:12:04');
+INSERT INTO `doadoras` (`id`, `nome`, `cpf`, `data_nascimento`, `telefone`, `cep`, `endereco`, `numero`, `bairro`, `observacoes`, `criado_em`, `id_funcionario`) VALUES
+(47, 'lily', '541.262.118-02', '2025-11-18', '(16) 99308-9219', '15905-020', 'Rua Doutor Joaquim Machado Faro Rolemberg', '12', 'Jardim Bela Vista', '', '2025-11-18 17:08:48', 33);
 
 -- --------------------------------------------------------
 
@@ -166,15 +169,16 @@ CREATE TABLE `retiradas` (
   `data_retirada` date NOT NULL,
   `quantidade_ml` decimal(10,2) NOT NULL,
   `tipo_leite` enum('leite_maduro','leite_transicao','leite_colostro','leite_humano_pasteurizado','leite_cru') NOT NULL,
-  `criado_em` timestamp NOT NULL DEFAULT current_timestamp()
+  `criado_em` timestamp NOT NULL DEFAULT current_timestamp(),
+  `id_funcionario` int(11) NOT NULL
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
 --
 -- Despejando dados para a tabela `retiradas`
 --
 
-INSERT INTO `retiradas` (`id`, `bebe_id`, `data_retirada`, `quantidade_ml`, `tipo_leite`, `criado_em`) VALUES
-(7, 22, '2025-11-12', 150.00, 'leite_maduro', '2025-11-17 21:16:21');
+INSERT INTO `retiradas` (`id`, `bebe_id`, `data_retirada`, `quantidade_ml`, `tipo_leite`, `criado_em`, `id_funcionario`) VALUES
+(8, 23, '2025-11-18', 150.00, 'leite_maduro', '2025-11-18 17:43:08', 33);
 
 -- --------------------------------------------------------
 
@@ -207,21 +211,24 @@ INSERT INTO `usuarios` (`id`, `nome`, `email`, `cpf`, `senha`, `nivel`) VALUES
 --
 ALTER TABLE `bebes`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `cpf_bebe` (`cpf_bebe`);
+  ADD UNIQUE KEY `cpf_bebe` (`cpf_bebe`),
+  ADD KEY `fk_bebes_funcionario` (`id_funcionario`);
 
 --
 -- Índices de tabela `doacoes`
 --
 ALTER TABLE `doacoes`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_doadora` (`doadora_id`);
+  ADD KEY `fk_doadora` (`doadora_id`),
+  ADD KEY `fk_funcionario_doacao` (`id_funcionario`);
 
 --
 -- Índices de tabela `doadoras`
 --
 ALTER TABLE `doadoras`
   ADD PRIMARY KEY (`id`),
-  ADD UNIQUE KEY `cpf` (`cpf`);
+  ADD UNIQUE KEY `cpf` (`cpf`),
+  ADD KEY `fk_doadoras_funcionario` (`id_funcionario`);
 
 --
 -- Índices de tabela `estoqueleite`
@@ -240,7 +247,8 @@ ALTER TABLE `logleite`
 --
 ALTER TABLE `retiradas`
   ADD PRIMARY KEY (`id`),
-  ADD KEY `fk_bebe` (`bebe_id`);
+  ADD KEY `fk_bebe` (`bebe_id`),
+  ADD KEY `fk_funcionario_retirada` (`id_funcionario`);
 
 --
 -- Índices de tabela `usuarios`
@@ -258,19 +266,19 @@ ALTER TABLE `usuarios`
 -- AUTO_INCREMENT de tabela `bebes`
 --
 ALTER TABLE `bebes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=23;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=24;
 
 --
 -- AUTO_INCREMENT de tabela `doacoes`
 --
 ALTER TABLE `doacoes`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=34;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=36;
 
 --
 -- AUTO_INCREMENT de tabela `doadoras`
 --
 ALTER TABLE `doadoras`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=46;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
 
 --
 -- AUTO_INCREMENT de tabela `estoqueleite`
@@ -288,7 +296,7 @@ ALTER TABLE `logleite`
 -- AUTO_INCREMENT de tabela `retiradas`
 --
 ALTER TABLE `retiradas`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=8;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=9;
 
 --
 -- AUTO_INCREMENT de tabela `usuarios`
@@ -301,16 +309,30 @@ ALTER TABLE `usuarios`
 --
 
 --
+-- Restrições para tabelas `bebes`
+--
+ALTER TABLE `bebes`
+  ADD CONSTRAINT `fk_bebes_funcionario` FOREIGN KEY (`id_funcionario`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE;
+
+--
 -- Restrições para tabelas `doacoes`
 --
 ALTER TABLE `doacoes`
-  ADD CONSTRAINT `fk_doadora` FOREIGN KEY (`doadora_id`) REFERENCES `doadoras` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_doadora` FOREIGN KEY (`doadora_id`) REFERENCES `doadoras` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_funcionario_doacao` FOREIGN KEY (`id_funcionario`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE;
+
+--
+-- Restrições para tabelas `doadoras`
+--
+ALTER TABLE `doadoras`
+  ADD CONSTRAINT `fk_doadoras_funcionario` FOREIGN KEY (`id_funcionario`) REFERENCES `usuarios` (`id`);
 
 --
 -- Restrições para tabelas `retiradas`
 --
 ALTER TABLE `retiradas`
-  ADD CONSTRAINT `fk_bebe` FOREIGN KEY (`bebe_id`) REFERENCES `bebes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE;
+  ADD CONSTRAINT `fk_bebe` FOREIGN KEY (`bebe_id`) REFERENCES `bebes` (`id`) ON DELETE CASCADE ON UPDATE CASCADE,
+  ADD CONSTRAINT `fk_funcionario_retirada` FOREIGN KEY (`id_funcionario`) REFERENCES `usuarios` (`id`) ON UPDATE CASCADE;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
